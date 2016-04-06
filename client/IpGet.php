@@ -37,9 +37,14 @@ class IpGet{
             echo "Please open curl mod.";
             return -1;
         }
-        curl_setopt($ch,CURLOPT_URL,$this->ipSaveServer."?ip=".$this->ip);
+		//http://icanhazip.com/获取的数据可能有返回\n
+		//如果不替换\n为空，会导致在Ubuntu下curl_exec时报错
+        curl_setopt($ch,CURLOPT_URL,$this->ipSaveServer."?ip=".str_replace("\n","",$this->ip));
         curl_setopt($ch, CURLOPT_HEADER, 0);
-        curl_exec($ch);
+        if(false === curl_exec($ch)){
+            echo "Saving to Server Error!\n";
+            echo curl_error($ch)."\n";
+        }
         curl_close($ch);
         return 0;
 
