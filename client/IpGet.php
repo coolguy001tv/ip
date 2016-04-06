@@ -53,5 +53,9 @@ class IpGet{
         }
         return -1;//失败
     }
+    //请在获取完后调用该方法
+    public function getMyIp(){
+        return $this->ip;
+    }
 
 }
